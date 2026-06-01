@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self';
+                 style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+                 font-src 'self' https://fonts.gstatic.com;
+                 script-src 'self';
+                 connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;" />
+  <title>OpenDraw</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@300..600&display=swap"
+        rel="stylesheet" />
+
+  <link rel="stylesheet" href="Styles.css" />
+</head>
+<body>
+  <canvas id="Board"></canvas>
+
+  <div id="CursorRing"></div>
+
+  <div id="Toolbar" role="toolbar" aria-label="Drawing tools">
+
+    <div class="Group">
+      <button id="ModeBtn" class="Btn Mode" title="Toggle draw / pass-through (Ctrl+Alt+D)">
+        <span class="ModeLabel" id="ModeText">Pass-through</span>
+      </button>
+    </div>
+
+    <div class="Group" id="Tools">
+      <button class="Btn Tool Active" data-tool="Pen"         title="Pen — P"><span class="Ico" data-ico="Pen"></span></button>
+      <button class="Btn Tool"        data-tool="Highlighter" title="Highlighter — H"><span class="Ico" data-ico="Highlighter"></span></button>
+      <button class="Btn Tool"        data-tool="Line"        title="Line — L"><span class="Ico" data-ico="Line"></span></button>
+      <button class="Btn Tool"        data-tool="Rect"        title="Rectangle — R"><span class="Ico" data-ico="Rect"></span></button>
+      <button class="Btn Tool"        data-tool="Arrow"       title="Arrow — A"><span class="Ico" data-ico="Arrow"></span></button>
+      <button class="Btn Tool"        data-tool="Eraser"      title="Eraser — E"><span class="Ico" data-ico="Eraser"></span></button>
+    </div>
+
+    <div class="Group" id="Colors"></div>
+
+    <div class="Group SizeGroup">
+      <span class="SizeDotWrap" title="Brush size">
+        <span class="SizeDot" id="SizeDot"></span>
+      </span>
+      <input id="Size" type="range" min="1" max="40" value="4" title="Brush size — [ and ]" />
+      <span class="SizeNum" id="SizeLabel">4</span>
+    </div>
+
+    <div class="Group">
+      <button class="Btn" id="UndoBtn"  title="Undo — Ctrl+Z"><span class="Ico" data-ico="Undo"></span></button>
+      <button class="Btn" id="RedoBtn"  title="Redo — Ctrl+Y"><span class="Ico" data-ico="Redo"></span></button>
+      <button class="Btn" id="ClearBtn" title="Clear all — Ctrl+Alt+C"><span class="Ico" data-ico="Trash"></span></button>
+    </div>
+
+    <div class="Group">
+      <button class="Btn Quit" id="QuitBtn" title="Quit"><span class="Ico" data-ico="Close"></span></button>
+    </div>
+  </div>
+
+  <div id="Hint"></div>
+
+  <script src="Renderer.js"></script>
+</body>
+</html>
