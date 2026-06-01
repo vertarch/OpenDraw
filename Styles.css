@@ -1,0 +1,250 @@
+:root {
+  --Bg:       #0E0E0E;
+  --Panel:    #141414;
+  --Panel2:   #1A1A1A;
+  --Border:   #1F1F1F;
+  --BorderHi: #2A2A2A;
+  --Muted:    #7A7A7A;
+  --Sub:      #A0A0A0;
+  --Fg:       #E8E8E8;
+  --FgHi:     #FFFFFF;
+  --Radius:   12px;
+  --Ease:     cubic-bezier(0.16, 1, 0.3, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  cursor: default;
+  font-family: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-feature-settings: "ss01", "cv11";
+  -webkit-font-smoothing: antialiased;
+  color: var(--Fg);
+}
+
+#Board { position: fixed; inset: 0; display: block; }
+body.Draw #Board { cursor: crosshair; }
+
+#CursorRing {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 0, 0, 0.45);
+  background: transparent;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 8;
+  will-change: left, top, width, height;
+}
+#CursorRing.Show { opacity: 1; }
+
+.Ico { display: inline-flex; width: 18px; height: 18px; flex: none; }
+.Ico svg { width: 100%; height: 100%; display: block; }
+
+#Toolbar {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px;
+  background: rgba(20, 20, 20, 0.86);
+  border: 1px solid var(--Border);
+  border-radius: var(--Radius);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.03) inset,
+    0 12px 40px -8px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2);
+  z-index: 10;
+  transition: opacity 0.22s var(--Ease), transform 0.22s var(--Ease);
+  animation: ToolbarIn 0.4s var(--Ease) both;
+}
+@keyframes ToolbarIn {
+  from { opacity: 0; transform: translate(-50%, -10px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+body:not(.Draw) #Toolbar {
+  opacity: 0.28;
+  transform: translateX(-50%) scale(0.96);
+}
+body:not(.Draw) #Toolbar:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.Group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 0 5px;
+  position: relative;
+}
+.Group + .Group::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 7px;
+  bottom: 7px;
+  width: 1px;
+  background: var(--Border);
+}
+
+.Btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  min-width: 34px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--Sub);
+  cursor: pointer;
+  transition: background 0.14s var(--Ease), color 0.14s var(--Ease),
+              border-color 0.14s var(--Ease), transform 0.08s var(--Ease);
+}
+.Btn:hover {
+  background: var(--Panel2);
+  border-color: var(--Border);
+  color: var(--Fg);
+}
+.Btn:active { transform: scale(0.93); }
+
+.Btn.Tool.Active {
+  background: var(--Fg);
+  border-color: var(--FgHi);
+  color: var(--Bg);
+}
+
+.Btn.Mode {
+  padding: 0 12px;
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  color: var(--Sub);
+}
+.ModeLabel { line-height: 1; }
+.Btn.Mode.Drawing {
+  background: var(--Fg);
+  border-color: var(--FgHi);
+  color: var(--Bg);
+}
+
+.Btn.Quit:hover {
+  color: #FF5A52;
+  border-color: rgba(255, 90, 82, 0.3);
+  background: rgba(255, 90, 82, 0.08);
+}
+
+#Colors { gap: 5px; }
+.Swatch {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.25);
+  transition: transform 0.12s var(--Ease), box-shadow 0.12s var(--Ease);
+}
+.Swatch:hover { transform: scale(1.18); }
+.Swatch.Active {
+  box-shadow: 0 0 0 2px var(--Bg), 0 0 0 3.5px var(--FgHi);
+  border-color: transparent;
+}
+
+.SizeGroup { gap: 9px; padding-left: 9px; padding-right: 9px; }
+.SizeDotWrap {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+}
+.SizeDot {
+  display: block;
+  border-radius: 50%;
+  background: var(--Fg);
+  transition: width 0.1s var(--Ease), height 0.1s var(--Ease), background 0.14s var(--Ease);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 84px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--BorderHi);
+  cursor: pointer;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--FgHi);
+  border: 1px solid var(--Bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  transition: transform 0.1s var(--Ease);
+}
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+
+.SizeNum {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 12px;
+  color: var(--Muted);
+  min-width: 22px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#Hint {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: rgba(20, 20, 20, 0.9);
+  color: var(--Sub);
+  border: 1px solid var(--Border);
+  border-radius: 999px;
+  font-size: 12.5px;
+  box-shadow: 0 10px 32px -10px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 11;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s var(--Ease), transform 0.25s var(--Ease);
+}
+#Hint.Show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#Hint kbd {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px;
+  color: var(--Fg);
+  background: var(--Panel2);
+  border: 1px solid var(--Border);
+  border-bottom-width: 2px;
+  padding: 1px 6px;
+  border-radius: 5px;
+}

@@ -1,0 +1,33 @@
+{
+  "name": "opendraw",
+  "version": "1.0.0",
+  "description": "Draw anywhere on your screen via a transparent always-on-top overlay.",
+  "main": "Main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.opendraw.app",
+    "productName": "OpenDraw",
+    "files": [
+      "Main.js",
+      "Preload.js",
+      "Index.html",
+      "Renderer.js",
+      "Styles.css"
+    ],
+    "win": {
+      "target": "portable",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "OpenDraw.exe"
+    }
+  }
+}
