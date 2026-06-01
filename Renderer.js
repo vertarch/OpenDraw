@@ -308,15 +308,6 @@ function ApplyModeUI() {
   }
 }
 
-let HintTimer = null;
-function ShowHint(HTML, MS = 2600) {
-  const Hint = document.getElementById('Hint');
-  Hint.innerHTML = HTML;
-  Hint.classList.add('Show');
-  clearTimeout(HintTimer);
-  HintTimer = setTimeout(() => Hint.classList.remove('Show'), MS);
-}
-
 document.querySelectorAll('.Tool').forEach((Btn) => {
   Btn.addEventListener('click', () => SetTool(Btn.dataset.tool));
 });
@@ -363,11 +354,6 @@ window.addEventListener('keydown', (E) => {
 window.OpenDraw.OnDrawMode((On) => {
   State.DrawMode = On;
   ApplyModeUI();
-  if (On) {
-    ShowHint('Drawing — <kbd>Esc</kbd> or <kbd>Ctrl+Alt+D</kbd> to click through');
-  } else {
-    ShowHint('Pass-through — <kbd>Ctrl+Alt+D</kbd> to draw');
-  }
 });
 window.OpenDraw.OnClear(() => ClearAll());
 window.OpenDraw.OnUndo(() => Undo());
@@ -382,4 +368,3 @@ BuildColors();
 SetTool('Pen');
 ApplyModeUI();
 UpdateSizeDot();
-ShowHint('<kbd>Ctrl+Alt+D</kbd> to draw', 4000);

@@ -214,37 +214,3 @@ input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
-
-#Hint {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 16px;
-  background: rgba(20, 20, 20, 0.9);
-  color: var(--Sub);
-  border: 1px solid var(--Border);
-  border-radius: 999px;
-  font-size: 12.5px;
-  box-shadow: 0 10px 32px -10px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  z-index: 11;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s var(--Ease), transform 0.25s var(--Ease);
-}
-#Hint.Show { opacity: 1; transform: translateX(-50%) translateY(0); }
-#Hint kbd {
-  font-family: "Geist Mono", ui-monospace, monospace;
-  font-size: 11px;
-  color: var(--Fg);
-  background: var(--Panel2);
-  border: 1px solid var(--Border);
-  border-bottom-width: 2px;
-  padding: 1px 6px;
-  border-radius: 5px;
-}
